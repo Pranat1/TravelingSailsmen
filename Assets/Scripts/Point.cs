@@ -47,7 +47,7 @@ public class Point : MonoBehaviour, IPointerClickHandler
         HighlightPoint hiPointSc1 = hiPoints[k].GetComponent<HighlightPoint>();
         if (!hiPointSc1.collisionIsColliding())
         {
-            
+
             allColl = false;
         }
         }
@@ -96,6 +96,10 @@ public class Point : MonoBehaviour, IPointerClickHandler
         {
             hiPointSc.SetIsColliding(true);
         }
+        /*
+        if (hiPointSc.transform.position.x == transform.position.x){
+
+        }*/
     }
     }
 

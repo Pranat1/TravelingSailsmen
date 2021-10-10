@@ -942,7 +942,7 @@ PrefabInstance:
       objectReference: {fileID: 4430664398456796540, guid: df1b63286011178418aff1ea5c347dc9, type: 3}
     - target: {fileID: 4725419723089266234, guid: bb82766aef876be4193fefeda5ed20a7, type: 3}
       propertyPath: destinations
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4725419723089266234, guid: bb82766aef876be4193fefeda5ed20a7, type: 3}
       propertyPath: highlightPoint
