@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4430664398456796540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.35433584, y: 0.32346854, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ab28e70e2d8624c93129a5d5ed4476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonNextLevel: {fileID: 4260646028572899381, guid: a3ea3a52e5d608c4fb079bf07227ee4b, type: 3}
   lineRendererPrefab: {fileID: 8805017999199750455, guid: 141355c780bdeec4e94715b889ec8fda, type: 3}
+  lineRendererPrefab1: {fileID: 8805017999199750455, guid: 148858dea07ad9847b54c9b70c00879d, type: 3}
 --- !u!61 &-1070969085495720293
 BoxCollider2D:
   m_ObjectHideFlags: 0

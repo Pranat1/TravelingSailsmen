@@ -7,8 +7,10 @@ public class Point : MonoBehaviour, IPointerClickHandler
 {
     private bool selected = false;
     [SerializeField] private GameObject lineRendererPrefab;
+    [SerializeField] private GameObject lineRendererPrefab1;
     public void OnPointerClick(PointerEventData eventData)
     {
+        GameStats statsGame = GameObject.Find("GameStats").GetComponent<GameStats>();
         GameObject[] hiPoints = GameObject.FindGameObjectsWithTag("Highlight");
         GameObject cameraprefab = GameObject.Find("MainCamera");
         GameObject gridSpawner = GameObject.Find("GridSpawner");
@@ -27,7 +29,7 @@ public class Point : MonoBehaviour, IPointerClickHandler
                     if((int) gameObject.transform.position.x == i - 6|| (int)  gameObject.transform.position.y == j-4)
                     {
                     DrowLine(transform.position, gridIn[i][j]);
-                    IfCollided(hiPoints);
+                    IfCollided(hiPoints, gridIn[i][j]);
                     scriptSpawner.AddPointsLine(transform.position);
                     selected = true;
                     }
@@ -38,7 +40,7 @@ public class Point : MonoBehaviour, IPointerClickHandler
 
         if (NoSelected)
         {
-            IfCollided(hiPoints);
+            IfCollided(hiPoints, null);
             scriptSpawner.AddPointsLine(transform.position);
             selected = true;
         }
@@ -53,8 +55,34 @@ public class Point : MonoBehaviour, IPointerClickHandler
         }
         if (allColl)
         {
+            GameStats gameStats = GameObject.FindGameObjectWithTag("GameStats").GetComponent<GameStats>();
+            if(gameStats.totalLineLength == gameStats.path[1000].x)
+            {
+                scriptSpawner.ActivateButton(true);
+            }
+            Dictionary<int, Vector3> pathAns = statsGame.path;
+            List<int> keyspathAns = new List<int>(pathAns.Keys);
+            keyspathAns.Sort();
+            Debug.Log(keyspathAns);
+
+            for (int l = 0; l < keyspathAns.Count-2; l++)
+            {
+                Vector3 distanceGap = pathAns[keyspathAns[l+1]] - pathAns[keyspathAns[l]];
+                GameObject lineObject1 = Instantiate(lineRendererPrefab1, pathAns[keyspathAns[l]], Quaternion.identity);
+                LineRenderer lineRendererObj = lineObject1.GetComponent<LineRenderer>();
+                Color c1 = Color.green;
+                lineRendererObj.SetColors(c1, c1);
+                lineRendererObj.SetPosition(0, pathAns[keyspathAns[l]]);
+                Vector3 firstStep = new Vector3(distanceGap.x + pathAns[keyspathAns[l]].x, pathAns[keyspathAns[l]].y,pathAns[keyspathAns[l]].z);
+                lineRendererObj.SetPosition(1,firstStep);
+                Vector3 secondStep = new Vector3(distanceGap.x + pathAns[keyspathAns[l]].x, distanceGap.y + pathAns[keyspathAns[l]].y, pathAns[keyspathAns[l]].z);
+                lineRendererObj.SetPosition(2,secondStep);
+
+            }
+            /*
             SceneLoader sceneLoded = GameObject.Find("SceneLoader").GetComponent<SceneLoader>();
             sceneLoded.LoadNextScene();
+            */
         }
         }
 
@@ -87,7 +115,7 @@ public class Point : MonoBehaviour, IPointerClickHandler
 
          
     }
-    public void IfCollided(GameObject[] hiPoints)
+    public void IfCollided(GameObject[] hiPoints, GameObject selectedPoint)
     {
     for (int k = 0; k < hiPoints.Length; k++)
     {
@@ -96,12 +124,27 @@ public class Point : MonoBehaviour, IPointerClickHandler
         {
             hiPointSc.SetIsColliding(true);
         }
-        /*
-        if (hiPointSc.transform.position.x == transform.position.x){
+        if (selectedPoint != null){
+            if (hiPointSc.transform.position.x == transform.position.x){
+                if (transform.position.y < hiPointSc.transform.position.y && hiPointSc.transform.position.y < selectedPoint.transform.position.y){
+                    hiPointSc.SetIsColliding(true);
+                }
+                if (transform.position.y > hiPointSc.transform.position.y && hiPointSc.transform.position.y > selectedPoint.transform.position.y){
+                    hiPointSc.SetIsColliding(true);
+                }
+        }
+            if (hiPointSc.transform.position.y == transform.position.y){
+                if (transform.position.x < hiPointSc.transform.position.x && hiPointSc.transform.position.x < selectedPoint.transform.position.x){
+                    hiPointSc.SetIsColliding(true);
+                }
+                if (transform.position.x > hiPointSc.transform.position.x && hiPointSc.transform.position.x > selectedPoint.transform.position.x){
+                    hiPointSc.SetIsColliding(true);
+                }
+        
+        }
+        }
 
-        }*/
+
     }
     }
-
-
 }

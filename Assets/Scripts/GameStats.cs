@@ -6,7 +6,8 @@ using TMPro;
 public class GameStats : MonoBehaviour
 {
     List<Vector3> myList = new List<Vector3>();
-    private float totalLineLength = 0f;
+    public float totalLineLength = 0f;
+    public Dictionary<int, Vector3> path;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,7 @@ public class GameStats : MonoBehaviour
         for (int i = 0; i < hiPoints.Length; i++){
             myList.Add(hiPoints[i].transform.position);
         }
-        Dictionary<int, Vector3> path = ShortestPath(myList);
+        path = ShortestPath(myList);
         int minVal = Min1(new List<int>(path.Keys));
         List<int> dataval = new List<int>(path.Keys);
         /*
@@ -30,7 +31,7 @@ public class GameStats : MonoBehaviour
         Debug.Log(path[1000]);
         GameObject textObject1 = GameObject.Find("MinMoves");
         TextMeshProUGUI textCompontnt = textObject1.GetComponent<TextMeshProUGUI>();
-        textCompontnt.text = path[1000].x.ToString();
+        textCompontnt.text =  "Min Moves: "+  path[1000].x.ToString();
 
 
     }
@@ -98,6 +99,7 @@ public class GameStats : MonoBehaviour
         TextMeshProUGUI lengthText = textObject.GetComponent<TextMeshProUGUI>();
         totalLineLength += lineLength;
         lengthText.text = totalLineLength.ToString();
+
     }
     private float DistanceTo(Vector3 val1, Vector3 val2)
     {
@@ -131,6 +133,37 @@ public class GameStats : MonoBehaviour
 
         return secBiggent;
     }
+
+    public void ResetBoard()
+    {
+        totalLineLength = 0f;
+        GameObject[] highlightPoints =  GameObject.FindGameObjectsWithTag("Highlight");
+        GameObject[] linePrefabs = GameObject.FindGameObjectsWithTag("Line");
+        GameObject gridSpawner = GameObject.Find("GridSpawner");
+        GridSpawner scriptSpawner = gridSpawner.GetComponent<GridSpawner>();
+        List<List<GameObject>> gridIn = scriptSpawner.GetArrayOf();
+        for (int j = 0; j< linePrefabs.Length; j++)
+        {
+            Destroy(linePrefabs[j]);
+        }
+        for (int i = 0; i< highlightPoints.Length; i++)
+        {
+            highlightPoints[i].GetComponent<HighlightPoint>().SetIsColliding(false);
+        }
+        for (int i = 0; i < gridIn.Count; i++)
+        {
+            for (int j = 0; j < gridIn[i].Count; j++)
+            {
+                if (gridIn[i][j].GetComponent<Point>().GetSelected())
+                {
+                    gridIn[i][j].GetComponent<Point>().SetSelected(false);
+                }
+            }
+        }
+    }
+
+
+
 }
 
 /*

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -8788900937685224976}
   - component: {fileID: -181001248550998722}
   m_Layer: 0
-  m_Name: LineRenderer
+  m_Name: LineRenderer 1
   m_TagString: Line
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,6 +75,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
